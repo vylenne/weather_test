@@ -1,0 +1,23 @@
+{
+  "weather": {
+    "search": "Search",
+    "searchHistory": "Search History",
+    "info": {
+      "realTemperature": "Temperature",
+      "feelsLike": "Feels like",
+      "minTemperature": "Min temperature",
+      "maxTemperature": "Max temperature",
+      "pressure": "Pressure",
+      "humidity": "Humidity",
+      "conditions": {
+        "sunny": "Sunny",
+        "rainy": "Rainy",
+        "snow": "Snow"
+      }
+    }
+  },
+  "errors": {
+    "noExist": "This name don't exist",
+    "isEmpty": "This field is empty"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "weather": {
+    "search": "Поиск",
+    "searchHistory": "История поиска",
+    "info": {
+      "realTemperature": "Температура",
+      "feelsLike": "Ощущается как",
+      "minTemperature": "Минимальная температура",
+      "maxTemperature": "Максимальная температура",
+      "pressure": "Давление",
+      "humidity": "Влажность",
+      "conditions": {
+        "sunny": "Солнечно",
+        "rainy": "Дождливо",
+        "snow": "Снег"
+      }
+    }
+  },
+  "errors": {
+    "noExist": "Этого имени не существует",
+    "isEmpty": "Поле осталось пустым :("
+  }
+}
