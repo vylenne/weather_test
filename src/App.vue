@@ -19,6 +19,7 @@
             <v-btn
                 class="white--text"
                 color="indigo"
+                @click="getWeather"
             >
               {{ $t('weather.search') }}
             </v-btn>
@@ -35,10 +36,10 @@
 </template>
 
 <script>
-
-import Weather from '@/components/Weather'
 import Localization from '@/components/Localization'
-import SearchHistory from "@/components/SearchHistory";
+import Weather from '@/components/Weather'
+import SearchHistory from '@/components/SearchHistory'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -49,8 +50,27 @@ export default {
   },
   data() {
     return {
-      search: ''
+      search: '',
+      error: false,
+      city: null
     }
+  },
+  computed: {
+    ...mapGetters(['getCities'])
+  },
+  methods: {
+    async getWeather() {
+      try {
+        if (this.search.length > 0) {
+          const response = await this.$store.dispatch('fetchWeather', this.search)
+          this.city = response
+          this.search = ''
+        }
+      } catch (e) {
+        this.city = null;
+        this.error = true;
+      }
+    },
   }
-};
+}
 </script>

@@ -5,7 +5,7 @@
         <span>{{ $t('weather.searchHistory') }}</span>
       </div>
       <div class="pa-3 body-2">
-        place for search history
+        {{ cities }}
       </div>
     </v-col>
   </v-row>
@@ -13,6 +13,11 @@
 
 <script>
 export default {
-name: 'SearchHistory'
+  name: 'SearchHistory',
+  computed: {
+    cities() {
+      return this.$store.state.cities
+    }
+  }
 }
 </script>
