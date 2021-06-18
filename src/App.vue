@@ -25,9 +25,6 @@
               {{ $t('weather.search') }}
             </v-btn>
           </div>
-          <pre style="font-size: 10px">
-            {{ city }}
-          </pre>
           <search-history/>
         </v-col>
         <v-divider vertical/>
