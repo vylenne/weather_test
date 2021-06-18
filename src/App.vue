@@ -14,6 +14,7 @@
                 filled
                 dense
                 hide-details
+                clearable
                 :label="$t('weather.search')"
             ></v-text-field>
             <v-btn
@@ -24,11 +25,14 @@
               {{ $t('weather.search') }}
             </v-btn>
           </div>
+          <pre style="font-size: 10px">
+            {{ city }}
+          </pre>
           <search-history/>
         </v-col>
         <v-divider vertical/>
         <v-col>
-          <weather/>
+          <weather :city ="city"/>
         </v-col>
       </v-row>
     </v-container>
@@ -64,7 +68,6 @@ export default {
         if (this.search.length > 0) {
           const response = await this.$store.dispatch('fetchWeather', this.search)
           this.city = response
-          this.search = ''
         }
       } catch (e) {
         this.city = null;

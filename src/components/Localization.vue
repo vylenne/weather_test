@@ -53,9 +53,10 @@ export default {
     currentLocale: {
       set(val) {
         this.$i18n.locale = val
+        this.$store.state.currentLanguage = val
       },
       get() {
-        return this.$i18n.locale
+        return this.$store.state.currentLanguage
       }
     }
   },

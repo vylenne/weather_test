@@ -8,16 +8,25 @@
       "minTemperature": "Min temperature",
       "maxTemperature": "Max temperature",
       "pressure": "Pressure",
+      "pressureLabel": "hPa",
       "humidity": "Humidity",
-      "conditions": {
-        "sunny": "Sunny",
-        "rainy": "Rainy",
-        "snow": "Snow"
+      "windSpeedAndDirection": "Wind direction and speed",
+      "windSpeedLabel": "m/s",
+      "windDirections": {
+        "Northerly": "Northerly",
+        "NorthWesterly": "North Westerly",
+        "Westerly": "Westerly",
+        "SouthWesterly": "South Westerly",
+        "Southerly": "Southerly",
+        "SouthEasterly": "South Easterly",
+        "Easterly": "Easterly",
+        "NorthEasterly": "North Easterly"
       }
     }
   },
   "errors": {
     "noExist": "This name don't exist",
-    "isEmpty": "This field is empty"
+    "isEmpty": "This field is empty",
+    "noWeather": "No weather forecast yet"
   }
 }

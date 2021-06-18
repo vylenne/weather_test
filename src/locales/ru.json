@@ -8,16 +8,25 @@
       "minTemperature": "Минимальная температура",
       "maxTemperature": "Максимальная температура",
       "pressure": "Давление",
+      "pressureLabel": "гПа",
       "humidity": "Влажность",
-      "conditions": {
-        "sunny": "Солнечно",
-        "rainy": "Дождливо",
-        "snow": "Снег"
+      "windSpeedAndDirection": "Скорость и направление ветра",
+      "windSpeedLabel": "м/с",
+      "windDirections": {
+        "Northerly": "Северный",
+        "NorthWesterly": "Северо-западный",
+        "Westerly": "Западный",
+        "SouthWesterly": "Юго-западный",
+        "Southerly": "Южный",
+        "SouthEasterly": "Южно-восточный",
+        "Easterly": "Восточный",
+        "NorthEasterly": "Северо-восточный"
       }
     }
   },
   "errors": {
     "noExist": "Этого имени не существует",
-    "isEmpty": "Поле осталось пустым :("
+    "isEmpty": "Поле осталось пустым :(",
+    "noWeather": "Прогноза погоды еще нет"
   }
 }
