@@ -29,6 +29,7 @@
         </v-col>
         <v-divider vertical/>
         <v-col>
+          <error v-if="error" :error="errorText"/>
           <weather :city ="city"/>
         </v-col>
       </v-row>
@@ -40,11 +41,12 @@
 import Localization from '@/components/Localization'
 import Weather from '@/components/Weather'
 import SearchHistory from '@/components/SearchHistory'
-import { mapGetters } from 'vuex'
+import Error from '@/components/Error'
 
 export default {
   name: 'App',
   components: {
+    Error,
     SearchHistory,
     Localization,
     Weather
@@ -53,22 +55,24 @@ export default {
     return {
       search: '',
       error: false,
+      errorText: '',
       city: null
     }
-  },
-  computed: {
-    ...mapGetters(['getCities'])
   },
   methods: {
     async getWeather() {
       try {
         if (this.search.length > 0) {
+          this.error = false
           const response = await this.$store.dispatch('fetchWeather', this.search)
           this.city = response
+        } else {
+          this.error = true
+          this.errorText = this.$t('errors.isEmpty')
         }
       } catch (e) {
-        this.city = null;
-        this.error = true;
+        this.error = true
+        this.errorText = this.$t('errors.noExist')
       }
     },
   }

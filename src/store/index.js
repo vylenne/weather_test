@@ -33,14 +33,9 @@ export default new Vuex.Store({
             if (state.length > 0) localStorage.setItem('cities', JSON.stringify(state))
         },
         async fetchWeather({commit}, city) {
-            try {
-                const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${this.state.currentLanguage}&appid=84e2a9ad0b2bca1922b23252454cc8a2`)
-                commit('CURRENT_CITY', city)
-                return response.data
-            } catch (e) {
-                console.log(e)
-            }
-
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${this.state.currentLanguage}&appid=84e2a9ad0b2bca1922b23252454cc8a2`)
+            commit('CURRENT_CITY', city)
+            return response.data
         }
     }
 })

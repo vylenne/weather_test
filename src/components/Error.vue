@@ -1,12 +1,19 @@
 <template>
   <v-alert
+      dense
       color="red"
       type="error"
-  ></v-alert>
+  > {{ error }} </v-alert>
 </template>
 
 <script>
 export default {
-  name: 'Error'
+  name: 'Error',
+  props: {
+    error: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
