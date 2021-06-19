@@ -1,13 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
-import { vuetify, i18n } from './plugins/vuetify'
-import CountryFlag from 'vue-country-flag'
-
+import { vuetify } from './plugins/vuetify'
+import { i18n } from './plugins/i18n'
 
 Vue.config.productionTip = false
-
-Vue.component('CountryFlag', CountryFlag)
 
 new Vue({
   i18n,

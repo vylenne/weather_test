@@ -41,8 +41,13 @@
 </template>
 
 <script>
+import CountryFlag from 'vue-country-flag'
+
 export default {
   name: 'Localization',
+  components: {
+    CountryFlag
+  },
   data() {
     return {
       drawer: null,

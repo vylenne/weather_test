@@ -22,7 +22,7 @@
             <v-img
                 class="ma-auto"
                 width="100"
-                :src="weatherImagePath"
+                :src="`http://openweathermap.org/img/wn/${this.city.weather[0].icon}@2x.png`"
                 :alt="city.weather[0].description"
             ></v-img>
           </v-col>
@@ -66,17 +66,13 @@
 </template>
 
 <script>
+const KELVIN_TEMP = 273
 export default {
   name: 'Weather',
   props: {
     city: {
       type: Object,
       default: () => ({})
-    }
-  },
-  data() {
-    return {
-      kelvinTemp: 273
     }
   },
   computed: {
@@ -117,14 +113,11 @@ export default {
     },
     windDirection() {
       return this.convertDegreesToWindDirection(this.city.wind.deg)
-    },
-    weatherImagePath() {
-      return `http://openweathermap.org/img/wn/${this.city.weather[0].icon}@2x.png`
     }
   },
   methods: {
     calculateDefaultTemperature(data) {
-      return parseInt(data - this.kelvinTemp)
+      return parseInt(data - KELVIN_TEMP)
     },
     convertDegreesToWindDirection(degree) {
       const degrees = degree * 8 / 360;

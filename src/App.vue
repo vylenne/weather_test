@@ -30,7 +30,7 @@
         <v-divider vertical/>
         <v-col>
           <error v-if="error" :error="errorText"/>
-          <weather :city ="city"/>
+          <weather :city="city"/>
         </v-col>
       </v-row>
     </v-container>
@@ -42,6 +42,8 @@ import Localization from '@/components/Localization'
 import Weather from '@/components/Weather'
 import SearchHistory from '@/components/SearchHistory'
 import Error from '@/components/Error'
+
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -60,21 +62,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getWeather']),
+    // @todo: check method
     async getWeather() {
-      try {
-        if (this.search.length > 0) {
-          this.error = false
-          const response = await this.$store.dispatch('fetchWeather', this.search)
-          this.city = response
-        } else {
-          this.error = true
-          this.errorText = this.$t('errors.isEmpty')
-        }
-      } catch (e) {
-        this.error = true
-        this.errorText = this.$t('errors.noExist')
+      if (this.search.length > 0) {
+        this.error = false
+        this.city = await this.$store.dispatch('getWeather', this.search)
       }
-    },
+    }
   }
 }
 </script>
