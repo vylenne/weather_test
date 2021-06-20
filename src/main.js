@@ -4,6 +4,7 @@ import store from './store'
 import { vuetify } from './plugins/vuetify'
 import { i18n } from './plugins/i18n'
 
+require('dotenv').config()
 Vue.config.productionTip = false
 
 new Vue({

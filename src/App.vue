@@ -62,12 +62,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getWeather']),
-    // @todo: check method
+    ...mapActions(['fetchWeather']),
     async getWeather() {
       if (this.search.length > 0) {
         this.error = false
-        this.city = await this.$store.dispatch('getWeather', this.search)
+        this.city = await this.fetchWeather()
       }
     }
   }

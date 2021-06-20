@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="6" class="pt-0">
             <p> {{ $t('weather.info.realTemperature') }} </p>
-            <p class="display-3 mb-0 black--text">{{ defaultTemp }} &deg;C </p>
+            <p class="display-3 mb-0 black--text">{{ weatherParams.defaultTemp }} &deg;C </p>
           </v-col>
           <v-col cols="6" class="pt-0">
             <v-img
@@ -30,22 +30,22 @@
         <v-row>
           <v-col>
             <p class="subtitle-2 mb-0"> {{ $t('weather.info.feelsLike') }}</p>
-            <span class="text-h5 font-weight-light">{{ defaultFeelsLikeTemp }} &deg;C</span>
+            <span class="text-h5 font-weight-light">{{ weatherParams.defaultFeelsLikeTemp }} &deg;C</span>
           </v-col>
           <v-col>
             <p class="subtitle-2 mb-0"> {{ $t('weather.info.windSpeedAndDirection') }}</p>
-            <span class="text-h6 font-weight-light">{{ windSpeed }} {{ $t('weather.info.windSpeedLabel') }}</span>
-            <p class="text-body-2">{{ windDirection }}</p>
+            <span class="text-h6 font-weight-light">{{ windParams.windSpeed }} {{ $t('weather.info.windSpeedLabel') }}</span>
+            <p class="text-body-2">{{ windParams.windDirection }}</p>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="6">
             <p class="subtitle-2 mb-0"> {{ $t('weather.info.minTemperature') }}</p>
-            <span class="text-h5 font-weight-light">{{ defaultMinTemp }} &deg;C</span>
+            <span class="text-h5 font-weight-light">{{ weatherParams.defaultMinTemp }} &deg;C</span>
           </v-col>
           <v-col cols="6">
             <p class="subtitle-2 mb-0"> {{ $t('weather.info.maxTemperature') }}</p>
-            <span class="text-h5 font-weight-light">{{ defaultMaxTemp }} &deg;C</span>
+            <span class="text-h5 font-weight-light">{{ weatherParams.defaultMaxTemp }} &deg;C</span>
           </v-col>
         </v-row>
         <v-row>
@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 const KELVIN_TEMP = 273
 export default {
   name: 'Weather',
@@ -89,30 +91,21 @@ export default {
       ]
     },
     todayDate() {
-      let today = new Date()
-      const dd = String(today.getDate()).padStart(2, '0')
-      const mm = String(today.getMonth() + 1).padStart(2, '0')
-      const yyyy = today.getFullYear()
-
-      return today = mm + '/' + dd + '/' + yyyy
+      return moment().locale(`${this.$store.state.currentLanguage}`).format("Do MMMM YYYY")
     },
-    defaultTemp() {
-      return this.calculateDefaultTemperature(this.city.main.temp)
+    weatherParams() {
+      return {
+        defaultTemp: this.calculateDefaultTemperature(this.city.main.temp),
+        defaultFeelsLikeTemp: this.calculateDefaultTemperature(this.city.main.feels_like),
+        defaultMinTemp: this.calculateDefaultTemperature(this.city.main.temp_min),
+        defaultMaxTemp: this.calculateDefaultTemperature(this.city.main.temp_max)
+      }
     },
-    defaultFeelsLikeTemp() {
-      return this.calculateDefaultTemperature(this.city.main.feels_like)
-    },
-    defaultMinTemp() {
-      return this.calculateDefaultTemperature(this.city.main.temp_min)
-    },
-    defaultMaxTemp() {
-      return this.calculateDefaultTemperature(this.city.main.temp_max)
-    },
-    windSpeed() {
-      return this.city.wind.speed
-    },
-    windDirection() {
-      return this.convertDegreesToWindDirection(this.city.wind.deg)
+    windParams() {
+      return {
+        windSpeed: this.city.wind.speed,
+        windDirection: this.convertDegreesToWindDirection(this.city.wind.deg)
+      }
     }
   },
   methods: {
