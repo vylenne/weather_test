@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import camelCase from 'lodash.camelcase'
+import { camelCase } from 'lodash'
 
 Vue.use(Vuex)
 

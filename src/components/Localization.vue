@@ -13,9 +13,9 @@
         <country-flag
             class="mr-1"
             size='small'
-            :country="currentLocale"
+            :country="$i18n.locale"
         />
-        <span class="mr-1">{{ currentLocale }}</span>
+        <span class="mr-1">{{ $i18n.locale }}</span>
         <v-icon small>mdi-chevron-down</v-icon>
       </v-btn>
     </template>
@@ -25,7 +25,7 @@
           :key="locale"
           dense
           link
-          @click="currentLocale = locale"
+          @click="changeLocale(locale)"
       >
 
         <v-list-item-action>
@@ -50,27 +50,21 @@ export default {
   },
   data() {
     return {
-      drawer: null,
       locales: ['US', 'RU']
     }
   },
-  computed: {
-    currentLocale: {
-      set(val) {
-        this.$i18n.locale = val
-        this.$store.state.currentLanguage = val
-      },
-      get() {
-        return this.$store.state.currentLanguage
-      }
+  created() {
+    if (localStorage.getItem('locale')) {
+      this.$i18n.locale = localStorage.getItem('locale')
     }
   },
-  watch: {
-    currentLocale: {
-      immediate: true,
-      handler(val) {
-        window.localStorage.locale = val
-      }
+  methods: {
+    changeLocale(locale) {
+      this.$i18n.locale = locale
+      localStorage.setItem('locale', locale)
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
     }
   }
 }

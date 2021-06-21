@@ -18,8 +18,7 @@ function loadLocaleMessages() {
 }
 
 export const i18n = new VueI18n({
-  // locale: window.localStorage.locale || 'US',
-  locale: 'US',
+  locale: localStorage.getItem('locale') || 'US',
   fallbackLocale: 'US',
   messages: loadLocaleMessages()
 })

@@ -1,10 +1,11 @@
 <template>
   <div>
-    <p v-if="!city" class="body-2 text-center"> {{ $t('errors.noWeather') }} </p>
-    <v-card v-else class="mx-auto" max-width="400">
+    <p v-if="!weather && !error && !loading" class="body-2 text-center"> {{ $t('errors.noWeather') }} </p>
+    <error v-if="error" :error="error"/>
+    <v-card v-if="weather" class="mx-auto" max-width="400">
       <v-list-item two-line>
         <v-list-item-content>
-          <v-list-item-title class="text-h4">{{ city.name }}</v-list-item-title>
+          <v-list-item-title class="text-h4">{{ weather.name }}</v-list-item-title>
           <v-list-item-subtitle>{{ todayDate }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -12,7 +13,7 @@
       <v-card-text>
         <v-row align="center">
           <v-col cols="12" class="py-0">
-            <p class="text-h6"> {{ city.weather[0].description }}</p>
+            <p class="text-h6"> {{ weather.weather[0].description }}</p>
           </v-col>
           <v-col cols="6" class="pt-0">
             <p> {{ $t('weather.info.realTemperature') }} </p>
@@ -22,8 +23,8 @@
             <v-img
                 class="ma-auto"
                 width="100"
-                :src="`http://openweathermap.org/img/wn/${this.city.weather[0].icon}@2x.png`"
-                :alt="city.weather[0].description"
+                :src="`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`"
+                :alt="weather.weather[0].description"
             ></v-img>
           </v-col>
         </v-row>
@@ -51,13 +52,13 @@
         <v-row>
           <v-col cols="6">
             <p class="subtitle-2 mb-0"> {{ $t('weather.info.pressure') }}</p>
-            <span class="text-h5 font-weight-light">{{ city.main.pressure }} {{
+            <span class="text-h5 font-weight-light">{{ weather.main.pressure }} {{
                 $t('weather.info.pressureLabel')
               }} </span>
           </v-col>
           <v-col cols="6">
             <p class="subtitle-2 mb-0"> {{ $t('weather.info.humidity') }}</p>
-            <span class="text-h5 font-weight-light">{{ city.main.humidity }} %</span>
+            <span class="text-h5 font-weight-light">{{ weather.main.humidity }} %</span>
           </v-col>
         </v-row>
       </v-card-text>
@@ -67,15 +68,24 @@
 
 <script>
 import moment from 'moment'
+import Error from '@/components/Error'
 
 const KELVIN_TEMP = 273
 export default {
   name: 'Weather',
   props: {
-    city: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    error: {},
+    weather: {
       type: Object,
       default: () => ({})
     }
+  },
+  components: {
+    Error
   },
   computed: {
     directions() {
@@ -91,20 +101,20 @@ export default {
       ]
     },
     todayDate() {
-      return moment().locale(`${this.$store.state.currentLanguage}`).format("Do MMMM YYYY")
+      return moment().locale(`${this.$i18n.locale}`).format("Do MMMM YYYY")
     },
     weatherParams() {
       return {
-        defaultTemp: this.calculateDefaultTemperature(this.city.main.temp),
-        defaultFeelsLikeTemp: this.calculateDefaultTemperature(this.city.main.feels_like),
-        defaultMinTemp: this.calculateDefaultTemperature(this.city.main.temp_min),
-        defaultMaxTemp: this.calculateDefaultTemperature(this.city.main.temp_max)
+        defaultTemp: this.calculateDefaultTemperature(this.weather.main.temp),
+        defaultFeelsLikeTemp: this.calculateDefaultTemperature(this.weather.main.feels_like),
+        defaultMinTemp: this.calculateDefaultTemperature(this.weather.main.temp_min),
+        defaultMaxTemp: this.calculateDefaultTemperature(this.weather.main.temp_max)
       }
     },
     windParams() {
       return {
-        windSpeed: this.city.wind.speed,
-        windDirection: this.convertDegreesToWindDirection(this.city.wind.deg)
+        windSpeed: this.weather.wind.speed,
+        windDirection: this.convertDegreesToWindDirection(this.weather.wind.deg)
       }
     }
   },

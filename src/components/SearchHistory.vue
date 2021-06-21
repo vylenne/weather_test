@@ -1,22 +1,29 @@
 <template>
-  <v-row>
-    <v-col>
-      <div class="pa-3 body-2">
-        <span>{{ $t('weather.searchHistory') }}</span>
-      </div>
-      <div class="pa-3 body-2">
-        {{ cities }}
-      </div>
-    </v-col>
-  </v-row>
+  <v-card tile class="mt-8">
+    <v-list dense>
+      <v-subheader class="body-2">{{ $t('weather.searchHistory') }}</v-subheader>
+      <v-list-item-group
+          color="indigo"
+      >
+        <v-list-item
+            v-for="(item, i) in list"
+            :key="i"
+            @click.prevent="$emit('handle-item', item)"
+        >
+          <v-list-item-title class="body-2">{{ item }}</v-list-item-title>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
 export default {
   name: 'SearchHistory',
-  computed: {
-    cities() {
-      return this.$store.state.cities
+  props: {
+    list: {
+      type: Array,
+      default: () => []
     }
   }
 }

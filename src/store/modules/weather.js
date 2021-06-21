@@ -1,39 +1,57 @@
-import axios from "axios";
+import { $http } from '@/plugins/axios'
+import { i18n } from '@/plugins/i18n'
+
+function saveWeather() {
+  const parsed = JSON.stringify(state.history)
+  localStorage.setItem('history', parsed)
+}
 
 const state = {
-  cities: [],
+  history: localStorage.getItem('history') ? JSON.parse(localStorage.getItem('history')) : [],
   currentWeather: null,
-  currentLanguage: 'US'
+  isLoading: false,
+  error: null
 }
 
 const getters = {
-  getCities(state) {
-    return state.cities
-  }
+  currentWeather: state => state.currentWeather,
+  isLoading: state => state.isLoading,
+  error: state => state.error,
+  history: state => state.history
 }
 
 const actions = {
   async getWeather({commit}, data) {
     try {
-      console.log(process.env.BASE_URL)
-      const response = await axios.get(`${process.env.BASE_URL}?q=${data}&lang=${this.state.currentLanguage}&appid=${process.env.API_KEY}`)
-      commit('CURRENT_WEATHER', data)
-      return response.data
+      commit('CHANGE_LOADING', true)
+      commit('SET_ERROR', null)
+      commit('SET_WEATHER', null)
+      const response = await $http.get(`weather?q=${data}&lang=${i18n.locale}&appid=${process.env.VUE_APP_API_KEY}`)
+      commit('ADD_TO_HISTORY', data)
+      commit('SET_WEATHER', response.data)
     } catch (error) {
-      console.log('error ->', error)
+      commit('SET_ERROR', error.response.data)
+    } finally {
+      commit('CHANGE_LOADING', false)
     }
   }
 }
 
 const mutations = {
-  ADD_TO_HISTORY(state, data) {
-    const elem = state.cities.find(item => item.id === data.id)
-    if (!elem) {
-      state.cities.push(data)
-    }
+  ADD_TO_HISTORY(state, name) {
+    const hasElement = state.history.some(e => e === name)
+    if (!hasElement)
+    state.history.unshift(name)
+    saveWeather()
   },
-  CURRENT_WEATHER(state, data) {
+  SET_WEATHER(state, data) {
     state.currentWeather = data
+  },
+  CHANGE_LOADING(state, status) {
+    state.isLoading = status
+  },
+  SET_ERROR(state, error) {
+    state.error = error
   }
 }
 

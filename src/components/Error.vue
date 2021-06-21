@@ -3,7 +3,7 @@
       dense
       color="red"
       type="error"
-  > {{ error }}
+  > {{ error && error.message }}
   </v-alert>
 </template>
 
